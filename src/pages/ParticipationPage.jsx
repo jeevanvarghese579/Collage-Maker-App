@@ -149,7 +149,16 @@ export default function ParticipationPage() {
         onNewStudent={() => setStudentForm({ editing: null })}
         onEditStudent={(student) => setStudentForm({ editing: student })}
       />
-      <StudentFormModal open={!!studentForm} editing={studentForm?.editing} onClose={() => setStudentForm(null)} />
+      <StudentFormModal
+        open={!!studentForm}
+        editing={studentForm?.editing}
+        onClose={() => setStudentForm(null)}
+        onSaved={async ({ student, isNew }) => {
+          if (!isNew || !addModal) return;
+          const added = await addParticipation(student.id, addModal.item, addModal.categoryId);
+          if (added) addToast({ type: 'success', message: `${student.name} was added to ${addModal.item.name}.` });
+        }}
+      />
       <Modal
         open={!!createModal}
         onClose={() => setCreateModal(null)}

@@ -22,7 +22,7 @@ const schema = z.object({
   className: z.string().min(1, 'Class is required'),
 });
 
-export default function StudentFormModal({ open, onClose, editing }) {
+export default function StudentFormModal({ open, onClose, editing, onSaved }) {
   const addToast = useAppStore((s) => s.addToast);
   const [photoBlobId, setPhotoBlobId] = useState(null);
   const [photoUrl, setPhotoUrl] = useState(null);
@@ -156,6 +156,7 @@ export default function StudentFormModal({ open, onClose, editing }) {
         if (photoBlobId) await updateBlobRef(photoBlobId, updated.id);
         await db.table(TABLES.students).put(updated);
         addToast({ type: 'success', message: 'Student updated.' });
+        await onSaved?.({ student: updated, isNew: false });
       } else {
         const student = makeStudent({
           ...values,
@@ -167,6 +168,7 @@ export default function StudentFormModal({ open, onClose, editing }) {
         await db.table(TABLES.students).put(student);
         if (photoBlobId) await updateBlobRef(photoBlobId, student.id);
         addToast({ type: 'success', message: 'Student added.' });
+        await onSaved?.({ student, isNew: true });
       }
       onClose();
     } finally {
