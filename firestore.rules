@@ -1,0 +1,16 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function hasCollageMakerAccess(uid) {
+      return request.auth != null
+        && request.auth.uid == uid
+        && get(/databases/$(database)/documents/accessUsers/$(uid)).data.active == true
+        && get(/databases/$(database)/documents/accessUsers/$(uid)).data.apps['1:379503088311:web:6a63dfcd8523e9f8133332'] == true
+        && get(/databases/$(database)/documents/appRegistry/1:379503088311:web:6a63dfcd8523e9f8133332).data.active == true;
+    }
+
+    match /users/{uid}/{document=**} {
+      allow read, write: if hasCollageMakerAccess(uid);
+    }
+  }
+}
