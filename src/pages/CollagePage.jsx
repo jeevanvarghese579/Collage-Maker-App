@@ -541,7 +541,7 @@ function CollageConfigPanel({ settings, setSettings }) {
           </div>
           <div>
             <label className="label">Photo border</label>
-            <input type="number" className="input py-1" value={settings.photoBorderThickness} onChange={(e) => setSettings({ photoBorderThickness: Number(e.target.value) })} />
+            <input type="number" min="0" step="0.5" className="input py-1" value={settings.photoBorderThickness} onChange={(e) => setSettings({ photoBorderThickness: Number(e.target.value) })} />
           </div>
           <div>
             <label className="label">Details border</label>
