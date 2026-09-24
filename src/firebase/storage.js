@@ -5,14 +5,7 @@ import {
   deleteObject,
 } from 'firebase/storage';
 import { getFirebase } from './config';
-
-function photoPath(uid, id) {
-  return `users/${uid}/photos/${id}.jpg`;
-}
-
-function framePath(uid, id) {
-  return `users/${uid}/frames/${id}.png`;
-}
+import { framePath, photoPath } from './paths';
 
 export async function uploadPhoto(uid, id, blob) {
   const { storage } = getFirebase();

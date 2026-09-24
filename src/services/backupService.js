@@ -7,10 +7,12 @@ import {
   APP_NAME,
 } from '@/constants';
 import { downloadBlob, nowISO } from '@/utils';
+import { APP_KEY } from '@/firebase/paths';
 
 export async function createBackup() {
   const zip = new JSZip();
   const meta = {
+    appKey: APP_KEY,
     app: APP_NAME,
     appVersion: APP_VERSION,
     schemaVersion: BACKUP_SCHEMA_VERSION,
@@ -57,6 +59,9 @@ export async function previewBackup(file) {
 export async function restoreBackup(file, { mode = 'replace' } = {}) {
   const zip = await JSZip.loadAsync(file);
   const meta = JSON.parse(await zip.file('meta.json').async('string'));
+  if (meta.appKey !== undefined && meta.appKey !== APP_KEY) {
+    throw new Error('This backup belongs to a different application.');
+  }
 
   const tableNames = [
     'students',
