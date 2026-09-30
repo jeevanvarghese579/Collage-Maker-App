@@ -12,12 +12,12 @@ import { SYNC_STATUS } from '@/constants';
 
 function userCol(uid, name) {
   const { firestore } = getFirebase();
-  return collection(firestore, 'users', uid, name);
+  return collection(firestore, 'apps', 'collageMaker', 'users', uid, name);
 }
 
 function userDoc(uid, name, id) {
   const { firestore } = getFirebase();
-  return doc(firestore, 'users', uid, name, id);
+  return doc(firestore, 'apps', 'collageMaker', 'users', uid, name, id);
 }
 
 const TABLES = [

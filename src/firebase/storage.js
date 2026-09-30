@@ -7,11 +7,11 @@ import {
 import { getFirebase } from './config';
 
 function photoPath(uid, id) {
-  return `users/${uid}/photos/${id}.jpg`;
+  return `apps/collageMaker/users/${uid}/photos/${id}.jpg`;
 }
 
 function framePath(uid, id) {
-  return `users/${uid}/frames/${id}.png`;
+  return `apps/collageMaker/users/${uid}/frames/${id}.png`;
 }
 
 export async function uploadPhoto(uid, id, blob) {
