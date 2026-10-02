@@ -96,6 +96,7 @@ export default function LoginModal({ open, onClose, onSuccess }) {
   }
 
   async function handleRequest() {
+    if (!window.confirm('Send an access request to the administrator?')) return;
     setBusy(true);
     setError('');
     try {
@@ -162,6 +163,7 @@ export default function LoginModal({ open, onClose, onSuccess }) {
           <Notice text={gateMessage} />
           <p className="text-sm text-ink-500">Signed in as <strong>{user?.email}</strong></p>
           {gate.kind === 'denied' && <button className="btn-primary w-full" disabled={busy} onClick={handleRequest}><UserPlus size={16} /> Request Access</button>}
+          <a className="btn-ghost w-full text-center" href="https://itsjeevanvarghese.web.app/contact" target="_blank" rel="noopener noreferrer">Contact developer</a>
           {gate.kind === 'verification-required' && <button className="btn-primary w-full" disabled={busy} onClick={handleVerification}><Mail size={16} /> Send Verification Email</button>}
           {(gate.kind === 'pending' || gate.kind === 'rejected' || gate.kind === 'inactive' || gate.kind === 'verification-required') && (
             <button className="btn-secondary w-full" disabled={busy} onClick={() => evaluateAccess(user, gate.requestType)}><RefreshCw size={16} /> Check Again</button>
